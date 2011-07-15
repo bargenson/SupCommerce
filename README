@@ -1,1 +1,2 @@
 This project is a simple webapp using Servlet 3, JPA 2 and HTML 5 technology. 
+To run it, just execute the following maven command: mvn jetty:run
