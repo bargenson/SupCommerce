@@ -2,43 +2,38 @@ package com.supinfo.supcommerce.service.impl;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
+import com.supinfo.supcommerce.dao.DaoFactory;
+import com.supinfo.supcommerce.dao.ProductDao;
 import com.supinfo.supcommerce.model.Product;
 import com.supinfo.supcommerce.service.ProductService;
 
 public class ProductServiceImpl implements ProductService {
 	
-	EntityManager em;
+	private ProductDao productDao = DaoFactory.getDaoFactory().getProductDao();
 
 	@Override
 	public void addProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+		productDao.addProduct(product);
 	}
 
 	@Override
 	public Product getProductById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return productDao.getProductById(id);
 	}
 
 	@Override
-	public List<Product> getAllCategories() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product> getAllProducts() {
+		return productDao.getAllProducts();
 	}
 
 	@Override
 	public void updateProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+		productDao.updateProduct(product);
 	}
 
 	@Override
 	public void removeProduct(Product product) {
-		// TODO Auto-generated method stub
-		
+		productDao.removeProduct(product);
 	}
-	
+
 }
