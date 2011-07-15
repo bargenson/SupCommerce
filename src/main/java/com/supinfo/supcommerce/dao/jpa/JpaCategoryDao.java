@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
 import com.supinfo.supcommerce.dao.CategoryDao;
@@ -36,6 +37,17 @@ public class JpaCategoryDao implements CategoryDao {
 	public Category getCategoryById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		try { return em.find(Category.class, id); } 
+		finally { em.close(); }
+	}
+	
+	@Override
+	public Category getCategoryByIdWithProducts(Long id) {
+		EntityManager em = emf.createEntityManager();
+		try { 
+			Query query = em.createQuery("SELECT c FROM Category c LEFT JOIN FETCH c.products WHERE c.id = :id");
+			query.setParameter("id", id);
+			return (Category) query.getSingleResult();
+		} 
 		finally { em.close(); }
 	}
 

@@ -1,6 +1,7 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,23 +9,24 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.supinfo.supcommerce.dao.CategoryDao;
 import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.model.Category;
 
-@WebServlet(urlPatterns="/category")
-public class ShowCategoryServlet extends HttpServlet {
+@WebServlet(urlPatterns="/categories")
+public class ListCategoryServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String categoryIdParam = req.getParameter("id");
-		Long categoryId = Long.valueOf(categoryIdParam);
+		CategoryDao categoryService = DaoFactory.getDaoFactory().getCategoryDao();
 		
-		Category category = DaoFactory.getDaoFactory().getCategoryDao().getCategoryByIdWithProducts(categoryId);
+		List<Category> categories = categoryService.getAllCategories();
 		
-		req.setAttribute("category", category);
-		req.getRequestDispatcher("/jsp/showCategory.jsp").forward(req, resp);
+		req.setAttribute("categories", categories);
+		
+		req.getRequestDispatcher("/jsp/listCategory.jsp").forward(req, resp);
 	}
 
 }

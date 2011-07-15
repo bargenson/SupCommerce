@@ -9,22 +9,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.supinfo.supcommerce.dao.DaoFactory;
-import com.supinfo.supcommerce.model.Category;
+import com.supinfo.supcommerce.model.Product;
 
-@WebServlet(urlPatterns="/category")
-public class ShowCategoryServlet extends HttpServlet {
+@WebServlet(urlPatterns="product")
+public class ShowProductServlet extends HttpServlet {
 	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		String categoryIdParam = req.getParameter("id");
-		Long categoryId = Long.valueOf(categoryIdParam);
+		String productIdParam = req.getParameter("id");
+		Long productId = Long.valueOf(productIdParam);
 		
-		Category category = DaoFactory.getDaoFactory().getCategoryDao().getCategoryByIdWithProducts(categoryId);
+		Product product = DaoFactory.getDaoFactory().getProductDao().getProductById(productId);
 		
-		req.setAttribute("category", category);
-		req.getRequestDispatcher("/jsp/showCategory.jsp").forward(req, resp);
+		req.setAttribute("product", product);
+		req.getRequestDispatcher("/jsp/showProduct.jsp").forward(req, resp);
 	}
 
 }
