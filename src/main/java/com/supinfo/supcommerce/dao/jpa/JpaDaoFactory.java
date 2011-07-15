@@ -6,28 +6,38 @@ import javax.persistence.Persistence;
 import com.supinfo.supcommerce.dao.CategoryDao;
 import com.supinfo.supcommerce.dao.ProductDao;
 import com.supinfo.supcommerce.dao.DaoFactory;
+import com.supinfo.supcommerce.dao.UserDao;
 
 public class JpaDaoFactory extends DaoFactory {
 
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("supcommerce");
 	
-	private JpaCategoryDao categoryService;
-	private JpaProductDao productService;
+	private JpaCategoryDao categoryDao;
+	private JpaProductDao productDao;
+	private JpaUserDao userDao;
 	
 	@Override
 	public CategoryDao getCategoryDao() {
-		if(categoryService == null) {
-			categoryService = new JpaCategoryDao(emf);
+		if(categoryDao == null) {
+			categoryDao = new JpaCategoryDao(emf);
 		}
-		return categoryService;
+		return categoryDao;
 	}
 
 	@Override
 	public ProductDao getProductDao() {
-		if(productService == null) {
-			productService = new JpaProductDao(emf);
+		if(productDao == null) {
+			productDao = new JpaProductDao(emf);
 		}
-		return productService;
+		return productDao;
+	}
+
+	@Override
+	public UserDao getUserDao() {
+		if(userDao == null) {
+			userDao = new JpaUserDao(emf);
+		}
+		return userDao;
 	}
 
 }

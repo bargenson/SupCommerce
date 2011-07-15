@@ -81,6 +81,11 @@
 			<artifactId>sitemesh</artifactId>
 			<version>3.0-alpha-2</version>
 		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>r09</version>
+		</dependency>
 	</dependencies>
 
 	<build>

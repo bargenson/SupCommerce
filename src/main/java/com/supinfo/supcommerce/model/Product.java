@@ -18,7 +18,6 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
-@SuppressWarnings("serial")
 @Entity
 public class Product implements Serializable {
 	
