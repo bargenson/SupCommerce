@@ -1,6 +1,8 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -21,6 +23,9 @@ public class LoginServlet extends HttpServlet {
 		req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
 	}
 	
+	/**
+	 * @see http://stackoverflow.com/questions/199099/how-to-manage-a-redirect-request-after-a-jquery-ajax-call
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -30,13 +35,26 @@ public class LoginServlet extends HttpServlet {
 		
 		User user = DaoFactory.getDaoFactory().getUserDao().authenticate(username, password);
 		
-		if(username.equals("plop")) { // TODO Just for tests
-			req.getSession().setAttribute("current_user", user);
-			req.getRequestDispatcher("/jsp/logged.jsp").forward(req, resp);
+		if("plop".equals(username)) { // TODO Just for tests
+			req.getSession().setAttribute("current_user", user);			
+			
+			String redirectUrl = "/";
+			if(isAjaxCall(req)) {
+				resp.addHeader("Location", redirectUrl);
+			} else {
+				resp.sendRedirect(redirectUrl);
+			}
 		} else {
-			//resp.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+			List<String> errors = new ArrayList<String>();
+			errors.add("Wrong username and/or password.");
+			
+			req.setAttribute("errors", errors);
 			req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
 		}
+	}
+	
+	private boolean isAjaxCall(HttpServletRequest request) {
+		return request.getRequestURI().startsWith("/ajax");
 	}
 	
 }

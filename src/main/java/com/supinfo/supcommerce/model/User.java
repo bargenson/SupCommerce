@@ -61,7 +61,6 @@ public abstract class User implements Serializable {
 	public User(String username, String encryptedPassword, String password,
 			String passwordConfirmation, String firstName, String lastName,
 			Date dateOfBirth, String email) {
-		super();
 		this.username = username;
 		this.encryptedPassword = encryptedPassword;
 		this.password = password;

@@ -13,7 +13,7 @@ import com.supinfo.supcommerce.dao.CategoryDao;
 import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.model.Category;
 
-@WebServlet(urlPatterns="/categories")
+@WebServlet(urlPatterns= { "/categories", "/ajax/categories" })
 public class ListCategoryServlet extends HttpServlet {
 	
 	@Override
