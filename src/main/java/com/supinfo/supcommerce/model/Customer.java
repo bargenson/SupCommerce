@@ -19,13 +19,11 @@ public class Customer extends User {
 		
 	}
 
-	public Customer(String username, String encryptedPassword, String password,
-			String passwordConfirmation, String firstName, String lastName,
-			Date dateOfBirth, String email,
-			List<DeliveryAddress> deliveryAddresses) {
-		super(username, encryptedPassword, password, passwordConfirmation,
-				firstName, lastName, dateOfBirth, email);
-		this.deliveryAddresses = deliveryAddresses;
+	public Customer(String username, String password, String passwordConfirmation, 
+			String firstName, String lastName, Date dateOfBirth, String email) {
+		
+		super(username, password, passwordConfirmation, firstName, 
+				lastName, dateOfBirth, email);
 	}
 
 	public List<DeliveryAddress> getDeliveryAddresses() {
@@ -34,6 +32,12 @@ public class Customer extends User {
 
 	public void setDeliveryAddresses(List<DeliveryAddress> deliveryAddresses) {
 		this.deliveryAddresses = deliveryAddresses;
+	}
+	
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
+		return super.getPassword();
 	}
 
 }

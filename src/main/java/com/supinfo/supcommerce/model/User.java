@@ -17,11 +17,15 @@ import javax.validation.constraints.Past;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.supinfo.supcommerce.constraints.PasswordConfirmation;
+
 @Entity
 @DiscriminatorColumn
+@PasswordConfirmation(password="password", confirmation="passwordConfirmation", encrypted="encryptedPassword")
 public abstract class User implements Serializable {
 	
 	@Id @GeneratedValue
@@ -31,10 +35,10 @@ public abstract class User implements Serializable {
 	@Column(unique=true)
 	private String username;
 	
-	@NotEmpty @NotBlank
+	@NotBlank
 	private String encryptedPassword;
 	
-	@Transient
+	@Transient @Length(min=6)
 	private String password;
 	
 	@Transient
@@ -58,11 +62,10 @@ public abstract class User implements Serializable {
 		
 	}
 
-	public User(String username, String encryptedPassword, String password,
-			String passwordConfirmation, String firstName, String lastName,
-			Date dateOfBirth, String email) {
+	public User(String username, String password, String passwordConfirmation, 
+			String firstName, String lastName, Date dateOfBirth, String email) {
+		
 		this.username = username;
-		this.encryptedPassword = encryptedPassword;
 		this.password = password;
 		this.passwordConfirmation = passwordConfirmation;
 		this.firstName = firstName;

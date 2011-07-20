@@ -34,7 +34,7 @@ public class JpaCategoryDao implements CategoryDao {
 	}
 
 	@Override
-	public Category getCategoryById(Long id) {
+	public Category findCategoryById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		try { return em.find(Category.class, id); } 
 		finally { em.close(); }

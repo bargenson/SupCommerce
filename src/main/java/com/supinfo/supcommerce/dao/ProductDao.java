@@ -6,8 +6,8 @@ import com.supinfo.supcommerce.model.Product;
 
 public interface ProductDao {
 	
-	void addProduct(Product product);
-	Product getProductById(Long id);
+	Product addProduct(Product product);
+	Product findProductById(Long id);
 	List<Product> getAllProducts();
 	void updateProduct(Product product);
 	void removeProduct(Product product);

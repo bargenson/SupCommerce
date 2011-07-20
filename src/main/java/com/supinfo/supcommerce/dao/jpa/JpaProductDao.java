@@ -18,22 +18,25 @@ public class JpaProductDao implements ProductDao {
 	}
 
 	@Override
-	public void addProduct(Product product) {
+	public Product addProduct(Product product) {
+		Product result = null;
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		try {
 			em.persist(product);
 			em.getTransaction().commit();
+			result = product;
 		} finally {
 			if(em.getTransaction().isActive()) {
 				em.getTransaction().rollback();
 			}
 			em.close();
 		}
+		return result;
 	}
 
 	@Override
-	public Product getProductById(Long id) {
+	public Product findProductById(Long id) {
 		EntityManager em = emf.createEntityManager();
 		try { return em.find(Product.class, id); } 
 		finally { em.close(); }

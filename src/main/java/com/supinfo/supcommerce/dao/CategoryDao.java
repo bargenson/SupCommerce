@@ -7,7 +7,7 @@ import com.supinfo.supcommerce.model.Category;
 public interface CategoryDao {
 	
 	void addCategory(Category category);
-	Category getCategoryById(Long id);
+	Category findCategoryById(Long id);
 	List<Category> getAllCategories();
 	void updateCategory(Category category);
 	void removeCategory(Category category);

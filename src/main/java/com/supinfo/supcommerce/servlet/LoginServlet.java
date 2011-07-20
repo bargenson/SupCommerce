@@ -35,7 +35,7 @@ public class LoginServlet extends HttpServlet {
 		
 		User user = DaoFactory.getDaoFactory().getUserDao().authenticate(username, password);
 		
-		if("plop".equals(username)) { // TODO Just for tests
+		if(user != null) { 
 			req.getSession().setAttribute("current_user", user);			
 			
 			String redirectUrl = "/";
@@ -49,7 +49,8 @@ public class LoginServlet extends HttpServlet {
 			errors.add("Wrong username and/or password.");
 			
 			req.setAttribute("errors", errors);
-			req.getRequestDispatcher("/jsp/login.jsp").forward(req, resp);
+			
+			doGet(req, resp);
 		}
 	}
 	

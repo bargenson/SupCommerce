@@ -21,7 +21,7 @@ public class ShowProductServlet extends HttpServlet {
 		String productIdParam = req.getParameter("id");
 		Long productId = Long.valueOf(productIdParam);
 		
-		Product product = DaoFactory.getDaoFactory().getProductDao().getProductById(productId);
+		Product product = DaoFactory.getDaoFactory().getProductDao().findProductById(productId);
 		
 		req.setAttribute("product", product);
 		req.getRequestDispatcher("/jsp/showProduct.jsp").forward(req, resp);
