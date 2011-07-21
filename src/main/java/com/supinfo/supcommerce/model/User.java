@@ -13,6 +13,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -35,7 +36,7 @@ public abstract class User implements Serializable {
 	@Column(unique=true)
 	private String username;
 	
-	@NotBlank
+	@Size(min=1)
 	private String encryptedPassword;
 	
 	@Transient @Length(min=6)
@@ -54,13 +55,11 @@ public abstract class User implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
 	
-	@Email
+	@Email @NotEmpty
 	private String email;
 	
 	
-	public User() {
-		
-	}
+	public User() { }
 
 	public User(String username, String password, String passwordConfirmation, 
 			String firstName, String lastName, Date dateOfBirth, String email) {

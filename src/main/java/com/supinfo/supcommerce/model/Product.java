@@ -3,8 +3,10 @@ package com.supinfo.supcommerce.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -12,6 +14,7 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
@@ -37,15 +40,20 @@ public class Product implements Serializable {
 	@ManyToOne @JoinColumn
 	private Category category;
 	
+	@Lob @Size(max=500 * 1000)
+	@Basic(fetch=FetchType.LAZY)
+	private byte[] picture;
+	
 	
 	public Product() { }
 
 	public Product(String name, String description,
-			BigDecimal price, Category category) {
+			BigDecimal price, Category category, byte[] picture) {
 		this.name = name;
 		this.description = description;
 		this.price = price;
 		this.category = category;
+		this.picture = picture;
 	}
 
 	public Long getId() {
@@ -86,6 +94,14 @@ public class Product implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
+	}
+	
+	public byte[] getPicture() {
+		return picture;
+	}
+	
+	public void setPicture(byte[] picture) {
+		this.picture = picture;
 	}
 
 	@Override

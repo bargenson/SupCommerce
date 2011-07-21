@@ -22,8 +22,8 @@
 					        <p>
 					        	<c:url value="product?id=${p.id}" var="productUrl" />
 					        	<a href="${productUrl}">
-					        		<c:url value="/images/noImageAvailable.jpg" var="noPictureImageUrl" />
-	        						<img alt="Product Picture" src="${noPictureImageUrl}" />
+					        		<c:url value="/picture/display?productId=${p.id}" var="productPictureUrl" />
+	        						<img alt="Product Picture" src="${productPictureUrl}" />
 					        	</a>
 					        </p>
 				            <p>

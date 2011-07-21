@@ -51,7 +51,8 @@ public class Bootstrap implements ServletContextListener {
 					"rediscover the design solutions themselves. The authors begin by describing what " +
 					"patterns are, and how they can help you design object-oriented software.", 
 				new BigDecimal("27.99"),
-				categories.get(0)
+				categories.get(0),
+				null
 			)
 		);
 		products.add(
@@ -64,7 +65,8 @@ public class Bootstrap implements ServletContextListener {
 					"the Knights who say'Ni', Tim the Enchanter and the Terror of the Cave of " +
 					"Caerbannog amongst other things.", 
 				new BigDecimal("43.90"),
-				categories.get(0)
+				categories.get(0),
+				null
 			)
 		);
 		products.add(
@@ -75,7 +77,8 @@ public class Bootstrap implements ServletContextListener {
 					"State Transfer web architecture (REST) to provide services over the web that are " +
 					"fundamentally simple.", 
 				new BigDecimal("52.31"),
-				categories.get(0)
+				categories.get(0),
+				null
 			)
 		);
 		

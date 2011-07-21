@@ -75,7 +75,7 @@ public class RegisterServlet extends HttpServlet {
 				}
 			} else {
 				for (ConstraintViolation<Customer> constraintViolation : violations) {
-					errors.add(constraintViolation.getMessage());
+					errors.add(constraintViolation.getPropertyPath().toString() + constraintViolation.getMessage());
 				}
 			}
 		} catch (ParseException e) {

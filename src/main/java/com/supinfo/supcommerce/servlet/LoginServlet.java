@@ -36,13 +36,14 @@ public class LoginServlet extends HttpServlet {
 		User user = DaoFactory.getDaoFactory().getUserDao().authenticate(username, password);
 		
 		if(user != null) { 
-			req.getSession().setAttribute("current_user", user);			
+			req.getSession().setAttribute("currentUser", user);			
 			
 			String redirectUrl = "/";
 			if(isAjaxCall(req)) {
 				resp.addHeader("Location", redirectUrl);
 			} else {
 				resp.sendRedirect(redirectUrl);
+				return;
 			}
 		} else {
 			List<String> errors = new ArrayList<String>();

@@ -2,6 +2,9 @@
 
 <html>	
 	<body>
+		<c:if test="${not empty sessionScope.currentUser}">
+			<c:out value="${sessionScope.currentUser.username}" />
+		</c:if>
         <ul>
         	<c:forEach items="${categories}" var="c">
         		<li>

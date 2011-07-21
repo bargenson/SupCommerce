@@ -40,7 +40,7 @@
 		</script>
 	</head>
 	<body>
-    	<form class="cmxform" id="loginForm" action="login" method="post">
+    	<form class="cmxform" id="loginForm" action="" method="post">
     		<c:if test="${not empty errors}">
    				<ul>
     				<c:forEach items="${errors}" var="e">

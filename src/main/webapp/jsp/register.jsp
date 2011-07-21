@@ -77,7 +77,7 @@
 			</div>
 			<div>
 				<label for="email">E-mail:</label>
-				<input type="text" name="email" id="email" />
+				<input type="email" name="email" id="email" />
 			</div>
 			<div>
 				<label for="firstName">First Name:</label>

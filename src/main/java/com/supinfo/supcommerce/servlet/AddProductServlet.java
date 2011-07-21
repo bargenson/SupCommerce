@@ -1,5 +1,6 @@
 package com.supinfo.supcommerce.servlet;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,10 +8,12 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
@@ -23,6 +26,7 @@ import com.supinfo.supcommerce.model.Category;
 import com.supinfo.supcommerce.model.Product;
 
 @WebServlet(urlPatterns={ "/addProduct", "/ajax/addProduct" })
+@MultipartConfig
 public class AddProductServlet extends HttpServlet {
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterServlet.class);
@@ -32,6 +36,11 @@ public class AddProductServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
+		List<Category> categories = DaoFactory.getDaoFactory().getCategoryDao().getAllCategories();
+		
+		req.getSession().setAttribute("test", "test");
+		
+		req.setAttribute("categories", categories);
 		req.getRequestDispatcher("/jsp/addProduct.jsp").forward(req, resp);
 	}
 	
@@ -45,11 +54,21 @@ public class AddProductServlet extends HttpServlet {
 		String categoryIdParam = req.getParameter("category");
 		Long categoryId = Long.valueOf(categoryIdParam);
 		
+		byte[] picture;
+		if(isAjaxCall(req)) {
+			String uploadPictureAttribute = "com.supinfo.supcommerce.upload";
+			picture = (byte[]) req.getSession().getAttribute(uploadPictureAttribute);
+			req.getSession().removeAttribute(uploadPictureAttribute);
+		} else {
+			Part picturePart = req.getPart("picture");
+			picture = getByteArray(picturePart);
+		}
+		
 		List<String> errors = new ArrayList<String>();
 		
 		Category category = DaoFactory.getDaoFactory().getCategoryDao().findCategoryById(categoryId);
 		
-		Product product = new Product(nameParam, descriptionParam, price, category);
+		Product product = new Product(nameParam, descriptionParam, price, category, picture);
 		
 		Set<ConstraintViolation<Product>> violations = validateModel(product);
 		
@@ -76,6 +95,16 @@ public class AddProductServlet extends HttpServlet {
 		req.setAttribute("errors", errors);
 		
 		doGet(req, resp);
+	}
+
+	private byte[] getByteArray(Part part) throws IOException {
+		byte[] result = null;
+		if(part != null) {
+			result = new byte[(int) part.getSize()];
+			BufferedInputStream bufferedInputStream = new BufferedInputStream(part.getInputStream());
+			bufferedInputStream.read(result);
+		}
+		return result;
 	}
 	
 	private <T> Set<ConstraintViolation<T>> validateModel(T model) {

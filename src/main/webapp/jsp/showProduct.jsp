@@ -11,8 +11,8 @@
 	            </h1>
 	        </header>
 	        <p>
-	        	<c:url value="/images/noImageAvailable.jpg" var="noPictureImageUrl" />
-	        	<img alt="Product Picture" src="${noPictureImageUrl}" />
+	        	<c:url value="/picture/display?productId=${product.id}" var="productPictureUrl" />
+	        	<img alt="Product Picture" src="${productPictureUrl}" />
 	        </p>
             <p>
             	<c:out value="${product.description}" />
