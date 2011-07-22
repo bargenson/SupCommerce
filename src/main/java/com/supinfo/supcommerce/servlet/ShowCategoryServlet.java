@@ -19,12 +19,19 @@ public class ShowCategoryServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String categoryIdParam = req.getParameter("id");
-		Long categoryId = Long.valueOf(categoryIdParam);
 		
-		Category category = DaoFactory.getDaoFactory().getCategoryDao().getCategoryByIdWithProducts(categoryId);
-		
-		req.setAttribute("category", category);
-		req.getRequestDispatcher("/jsp/showCategory.jsp").forward(req, resp);
+		if(categoryIdParam != null) {
+			Long categoryId = Long.valueOf(categoryIdParam);
+			
+			Category category = DaoFactory.getDaoFactory().getCategoryDao().getCategoryByIdWithProducts(categoryId);
+			
+			if(category != null) {
+				req.setAttribute("category", category);
+				req.getRequestDispatcher("/jsp/showCategory.jsp").forward(req, resp);
+				return;
+			}
+		}
+		resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	}
 
 }

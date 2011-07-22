@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 
@@ -47,8 +48,11 @@ public class JpaCategoryDao implements CategoryDao {
 			Query query = em.createQuery("SELECT c FROM Category c LEFT JOIN FETCH c.products WHERE c.id = :id");
 			query.setParameter("id", id);
 			return (Category) query.getSingleResult();
-		} 
-		finally { em.close(); }
+		} catch (NoResultException e) {
+			return null;
+		} finally { 
+			em.close(); 
+		}
 	}
 
 	@Override

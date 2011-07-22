@@ -19,12 +19,19 @@ public class ShowProductServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String productIdParam = req.getParameter("id");
-		Long productId = Long.valueOf(productIdParam);
 		
-		Product product = DaoFactory.getDaoFactory().getProductDao().findProductById(productId);
-		
-		req.setAttribute("product", product);
-		req.getRequestDispatcher("/jsp/showProduct.jsp").forward(req, resp);
+		if(productIdParam != null) {
+			Long productId = Long.valueOf(productIdParam);
+			
+			Product product = DaoFactory.getDaoFactory().getProductDao().findProductById(productId);
+			
+			if(product != null) {
+				req.setAttribute("product", product);
+				req.getRequestDispatcher("/jsp/showProduct.jsp").forward(req, resp);
+				return;
+			}
+		}
+		resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
 	}
 
 }
