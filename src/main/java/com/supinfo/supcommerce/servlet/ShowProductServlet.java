@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.model.Product;
 
-@WebServlet(urlPatterns="product")
+@WebServlet(urlPatterns="/product")
 public class ShowProductServlet extends HttpServlet {
 	
 	@Override

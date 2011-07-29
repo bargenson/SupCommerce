@@ -17,16 +17,20 @@ public class JpaPictureDao implements PictureDao {
 	
 	@Override
 	public byte[] findPictureByProductId(Long productId) {
+		byte[] result;
+		
 		EntityManager em = emf.createEntityManager();
 		try { 
 			Query query = em.createQuery("SELECT p.picture FROM Product p WHERE p.id = :id");
 			query = query.setParameter("id", productId);
-			return (byte[]) query.getSingleResult();
+			result = (byte[]) query.getSingleResult();
 		} catch (NoResultException e) {
-			return null;
+			result = null;
 		} finally { 
 			em.close(); 
 		}
+		
+		return result;
 	}
 
 }

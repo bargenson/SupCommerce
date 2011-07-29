@@ -2,6 +2,7 @@ package com.supinfo.supcommerce;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.ServletContextEvent;
@@ -14,8 +15,12 @@ import org.slf4j.LoggerFactory;
 import com.supinfo.supcommerce.dao.CategoryDao;
 import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.dao.ProductDao;
+import com.supinfo.supcommerce.dao.UserDao;
+import com.supinfo.supcommerce.model.Admin;
 import com.supinfo.supcommerce.model.Category;
+import com.supinfo.supcommerce.model.Customer;
 import com.supinfo.supcommerce.model.Product;
+import com.supinfo.supcommerce.model.User;
 
 @WebListener
 public class Bootstrap implements ServletContextListener {
@@ -24,19 +29,24 @@ public class Bootstrap implements ServletContextListener {
 	
 	@Override
 	public void contextInitialized(ServletContextEvent e) {
-		CategoryDao categoryService = DaoFactory.getDaoFactory().getCategoryDao();
-		ProductDao productDao = DaoFactory.getDaoFactory().getProductDao();
-
 		LOGGER.info("Boostrap - Populate database.");
 		
+		CategoryDao categoryService = DaoFactory.getDaoFactory().getCategoryDao();
 		List<Category> categories = createBasicCategories();
 		for (Category category : categories) {
 			categoryService.addCategory(category);
 		}
 		
+		ProductDao productDao = DaoFactory.getDaoFactory().getProductDao();
 		List<Product> products = createBasicProducts(categories);
 		for (Product product : products) {
 			productDao.addProduct(product);
+		}
+		
+		UserDao userDao = DaoFactory.getDaoFactory().getUserDao();
+		List<User> users = createBasicUsers();
+		for (User user : users) {
+			userDao.register(user);
 		}
 	}
 
@@ -97,8 +107,30 @@ public class Bootstrap implements ServletContextListener {
 		
 		return categories;
 	}
+	
+	private List<User> createBasicUsers() {
+		List<User> users = new ArrayList<User>();
+		
+		users.add(
+				new Customer(
+						"customer", "customer", "customer", 
+						"John", "Doe", new Date(), "john.doe@unknown.com"
+				)
+		);
+		
+		users.add(
+				new Admin(
+						"admin", "adminadmin", "adminadmin", 
+						"Admin", "Istrator", new Date(), "admin@supcommerce.com"
+				)
+		);
+		
+		return users;
+	}
 
 	@Override
-	public void contextDestroyed(ServletContextEvent e) { }
+	public void contextDestroyed(ServletContextEvent e) {
+		// Do nothing
+	}
 
 }

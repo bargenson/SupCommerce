@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 public class JspFilter implements Filter {
 
 	@Override
-	public void init(FilterConfig config) throws ServletException { }
+	public void init(FilterConfig config) throws ServletException {
+		// Do nothing
+	}
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp,
@@ -26,6 +28,8 @@ public class JspFilter implements Filter {
 	}
 
 	@Override
-	public void destroy() { }
+	public void destroy() {
+		// Do nothing
+	}
 	
 }

@@ -21,19 +21,21 @@ public class JpaUserDao implements UserDao {
 
 	@Override
 	public User authenticate(String username, String password) {
+		User result = null;
+		
 		EntityManager em = emf.createEntityManager();
 		try {
-			Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
-			User user = (User) query.setParameter("username", username).getSingleResult();
-			if(user.getEncryptedPassword().equals(encryptPassword(password))) {
-				return user;
+			User user = findUserByUsername(username);
+			if(user != null && user.getEncryptedPassword().equals(encryptPassword(password))) {
+				result = user;
 			}
 		} catch (NoResultException e) { 
-			// Do nothing
+			// Do nothing, result is already null
 		} finally {
 			em.close();
 		}
-		return null;
+		
+		return result;
 	}
 	
 	private String encryptPassword(String password) {
@@ -61,6 +63,23 @@ public class JpaUserDao implements UserDao {
 			}
 			em.close();
 		}
+		return result;
+	}
+
+	@Override
+	public User findUserByUsername(String username) {
+		User result;
+		
+		EntityManager em = emf.createEntityManager();
+		try {
+			Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
+			result = (User) query.setParameter("username", username).getSingleResult();
+		} catch (NoResultException e) { 
+			result = null;
+		} finally {
+			em.close();
+		}
+		
 		return result;
 	}
 	

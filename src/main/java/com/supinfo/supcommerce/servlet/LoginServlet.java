@@ -1,6 +1,8 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.supinfo.supcommerce.dao.DaoFactory;
-import com.supinfo.supcommerce.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @WebServlet(urlPatterns= { "/login", "/ajax/login" })
 public class LoginServlet extends HttpServlet {
+	
+	private final static Logger LOGGER = LoggerFactory.getLogger(LoginServlet.class);
+	
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -33,19 +38,15 @@ public class LoginServlet extends HttpServlet {
 		String username = req.getParameter("username");
 		String password = req.getParameter("password");
 		
-		User user = DaoFactory.getDaoFactory().getUserDao().authenticate(username, password);
-		
-		if(user != null) { 
-			req.getSession().setAttribute("currentUser", user);			
-			
-			String redirectUrl = "/";
+		try {
+			req.login(username, encryptPassword(password));
+			String redirectUrl = req.getContextPath();
 			if(isAjaxCall(req)) {
 				resp.addHeader("Location", redirectUrl);
 			} else {
 				resp.sendRedirect(redirectUrl);
-				return;
 			}
-		} else {
+		} catch (ServletException e) {
 			List<String> errors = new ArrayList<String>();
 			errors.add("Wrong username and/or password.");
 			
@@ -59,4 +60,14 @@ public class LoginServlet extends HttpServlet {
 		return request.getRequestURI().startsWith("/ajax");
 	}
 	
+	private String encryptPassword(String password) {
+		String result = null;
+		try {
+			result = new String(MessageDigest.getInstance("SHA-1").digest(password.getBytes()));
+		} catch (NoSuchAlgorithmException e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+		return result;
+	}
+		
 }

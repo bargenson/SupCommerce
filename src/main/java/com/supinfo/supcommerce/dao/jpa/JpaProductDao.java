@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaQuery;
 
 import com.supinfo.supcommerce.dao.ProductDao;
@@ -37,9 +38,18 @@ public class JpaProductDao implements ProductDao {
 
 	@Override
 	public Product findProductById(Long id) {
+		Product result;
+		
 		EntityManager em = emf.createEntityManager();
-		try { return em.find(Product.class, id); } 
-		finally { em.close(); }
+		try {
+			result = em.find(Product.class, id); 
+		} catch (NoResultException e) {
+			result = null;
+		} finally { 
+			em.close(); 
+		}
+		
+		return result;
 	}
 
 	@Override

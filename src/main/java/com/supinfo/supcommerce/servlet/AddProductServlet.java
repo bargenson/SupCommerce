@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -24,18 +26,19 @@ import org.slf4j.LoggerFactory;
 import com.supinfo.supcommerce.dao.DaoFactory;
 import com.supinfo.supcommerce.model.Category;
 import com.supinfo.supcommerce.model.Product;
+import com.supinfo.supcommerce.security.LoginModule;
 
-@WebServlet(urlPatterns={ "/addProduct", "/ajax/addProduct" })
 @MultipartConfig
+@WebServlet(urlPatterns={ "/addProduct", "/ajax/addProduct" })
+@ServletSecurity(@HttpConstraint(rolesAllowed = { LoginModule.ADMIN_ROLE }))
 public class AddProductServlet extends HttpServlet {
 	
 	private final static Logger LOGGER = LoggerFactory.getLogger(RegisterServlet.class);
 
-
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		
+				
 		List<Category> categories = DaoFactory.getDaoFactory().getCategoryDao().getAllCategories();
 		
 		req.getSession().setAttribute("test", "test");
