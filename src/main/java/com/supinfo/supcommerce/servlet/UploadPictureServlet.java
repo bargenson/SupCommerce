@@ -10,15 +10,20 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.HttpConstraint;
 import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.annotation.ServletSecurity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-@WebServlet(urlPatterns="/picture/upload")
+import com.supinfo.supcommerce.security.LoginModule;
+
 @MultipartConfig
+@WebServlet(urlPatterns="/picture/upload")
+@ServletSecurity(@HttpConstraint(rolesAllowed= { LoginModule.ADMIN_ROLE }))
 public class UploadPictureServlet extends HttpServlet {	
 
 	@Override

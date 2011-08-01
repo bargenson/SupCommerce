@@ -4,9 +4,14 @@
 	<Get name="securityHandler">
 		<Set name="loginService">
 			<New class="org.eclipse.jetty.plus.jaas.JAASLoginService">
-		   		<Set name="Name">SupCommerceRealm</Set>
-		   		<Set name="LoginModuleName">SupCommerceLoginModule</Set>
+				<Set name="Name">SupCommerceRealm</Set>
+				<Set name="LoginModuleName">SupCommerceLoginModule</Set>
+				<Set name="roleClassNames">
+					<Array type="java.lang.String">
+						<Item>fr.bargenson.utils.security.JAASRole</Item>
+					</Array>
+				</Set>
 			</New>
 		</Set>
-	 </Get>
+	</Get>
 </Configure>
