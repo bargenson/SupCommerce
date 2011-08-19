@@ -1,5 +1,6 @@
 .classpath
 .project
 .settings
+.openshift
 target
 supcommerce.db.*
