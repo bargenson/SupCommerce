@@ -14,7 +14,10 @@
 						name: 			{ required: true, minlength: 4 },
 						description: 	{ required: true },
 						price: 			{ required: true, number: true, min: 0.01 },
-						category: 		{ required: true }
+						category: 		{ required: true, number: true }
+					},
+					messages: {
+						category: "Please select a category."
 					},
 					submitHandler: function() {
 						$("#loader").show();
@@ -37,8 +40,6 @@
 							},
 							error: function(result, text, error) {
 								alert("e:" + result + " " + text + " " + error);
-							},
-							complete: function() {
 								$("#loader").hide();
 							}
 						});
@@ -53,7 +54,7 @@
 				    'auto'      	: true,
 				    'sizeLimit'		: 500000,
 				    'onComplete'	: function(event, ID, fileObj, response, data) {
-				    	alert('Response: ' + response);
+				    	$("#picture").parent().html("<label for='picture'>Picture Uploaded !</label>");
 				    }
 			  	});
 			});
@@ -70,35 +71,48 @@
 	    			</c:forEach>
    				</ul>
     		</c:if>
-			<div>
-				<label for="name">Name:</label>
-				<input type="text" name="name" id="name" />
-			</div>
-			<div>
-				<label for="description">Description:</label>
-				<textarea name="description" id="description"></textarea>
-			</div>
-			<div>
-				<label for="price">Price:</label>
-				<input type="text" name="price" id="price" />
-			</div>
-			<div>
-				<label for="category">Category:</label>
-				<select name="category" id="category" >
-					<option>-- Select a category --</option>
-					<c:forEach items="${categories}" var="c">
-						<option value="${c.id}"><c:out value="${c.name}"/></option>
-					</c:forEach>
-				</select>
-			</div>
-			<div>
-				<label for="picture">Picture:</label>
-				<input type="file" name="picture" id="picture" />
-			</div>
-			<div>
-				<input type="submit" id="submit" value="Submit" />
-				<img id="loader" src="/images/ajax-loader.gif" alt="Please wait..." style="display: none;" />
-			</div>
+    		<fieldset>
+    			<legend>Add a Product</legend>
+				<div class="clearfix">
+					<label for="name">Name:</label>
+					<div class="input">
+						<input type="text" name="name" id="name" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="description">Description:</label>
+					<div class="input">
+						<textarea name="description" id="description"></textarea>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="price">Price:</label>
+					<div class="input">
+						<input type="text" name="price" id="price" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="category">Category:</label>
+					<div class="input">
+						<select name="category" id="category" >
+							<option>-- Select a category --</option>
+							<c:forEach items="${categories}" var="c">
+								<option value="${c.id}"><c:out value="${c.name}"/></option>
+							</c:forEach>
+						</select>
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="picture">Picture:</label>
+					<div class="input">
+						<input type="file" name="picture" id="picture" />
+					</div>
+				</div>
+				<div class="actions">
+					<input type="submit" id="submit" value="Submit" class="btn primary" />
+					<img id="loader" src="/images/ajax-loader.gif" alt="Please wait..." style="display: none;" />
+				</div>
+			</fieldset>
 		</form>
 	</body>
 </html>

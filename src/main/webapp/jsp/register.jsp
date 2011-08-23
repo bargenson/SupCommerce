@@ -41,8 +41,6 @@
 							},
 							error: function(result, text, error) {
 								alert("e:" + result + " " + text + " " + error);
-							},
-							complete: function() {
 								$("#loader").hide();
 							}
 						});
@@ -55,46 +53,64 @@
 	<body>
 		<form id="registerForm" class="cmxform" action="" method="post">
 			<c:if test="${not empty errors}">
-   				<ul>
-    				<c:forEach items="${errors}" var="e">
-    					<li>
-    						<c:out value="${e}" />
-    					</li>
-	    			</c:forEach>
-   				</ul>
+   				<div class="alert-message error">
+					<p><strong>Oh snap!</strong> Change this and that and try again:</p>
+					<ul>
+	    				<c:forEach items="${errors}" var="e">
+	    					<li><c:out value="${e}" /></li>
+		    			</c:forEach>
+	   				</ul>
+				</div>
     		</c:if>
-			<div>
-				<label for="username">Username:</label>
-				<input type="text" name="username" id="username" />
-			</div>
-			<div>
-				<label for="password">Password:</label>
-				<input type="password" name="password" id="password" />
-			</div>
-			<div>
-				<label for="confirmation">Password Confirmation:</label>
-				<input type="password" name="confirmation" id="confirmation" />
-			</div>
-			<div>
-				<label for="email">E-mail:</label>
-				<input type="email" name="email" id="email" />
-			</div>
-			<div>
-				<label for="firstName">First Name:</label>
-				<input type="text" name="firstName" id="firstName" />
-			</div>
-			<div>
-				<label for="lastName">Last Name:</label>
-				<input class="required" type="text" name="lastName" id="lastName" />
-			</div>
-			<div>
-				<label for="dateOfBirth">Date of birth (mm/dd/yyyy):</label>
-				<input type="text" name="dateOfBirth" id="dateOfBirth" />
-			</div>
-			<div>
-				<input type="submit" id="submit" value="Submit" />
-				<img id="loader" src="/images/ajax-loader.gif" alt="Please wait..." style="display: none;" />
-			</div>
+    		<fieldset>
+    			<legend>Register</legend>
+				<div class="clearfix">
+					<label for="username">Username:</label>
+					<div class="input">
+						<input type="text" name="username" id="username" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="password">Password:</label>
+					<div class="input">
+						<input type="password" name="password" id="password" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="confirmation">Password Confirmation:</label>
+					<div class="input">
+						<input type="password" name="confirmation" id="confirmation" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="email">E-mail:</label>
+					<div class="input">
+						<input type="text" name="email" id="email" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="firstName">First Name:</label>
+					<div class="input">
+						<input type="text" name="firstName" id="firstName" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="lastName">Last Name:</label>
+					<div class="input">
+						<input class="required" type="text" name="lastName" id="lastName" />
+					</div>
+				</div>
+				<div class="clearfix">
+					<label for="dateOfBirth">Date of birth (mm/dd/yyyy):</label>
+					<div class="input">
+						<input type="text" name="dateOfBirth" id="dateOfBirth" />
+					</div>
+				</div>
+				<div class="actions">
+					<input type="submit" id="submit" value="Submit" class="btn primary" />
+					<img id="loader" src="/images/ajax-loader.gif" alt="Please wait..." style="display: none;" />
+				</div>
+			</fieldset>
 		</form>
 	</body>
 </html>

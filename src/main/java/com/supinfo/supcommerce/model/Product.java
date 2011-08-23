@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,7 +26,6 @@ public class Product implements Serializable {
 	@Id @GeneratedValue
 	private Long id;
 	
-	@Column(unique=true) 
 	@NotEmpty @NotBlank
 	private String name;
 	

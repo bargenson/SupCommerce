@@ -3,7 +3,6 @@ package com.supinfo.supcommerce.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,7 +20,6 @@ public class Category implements Serializable {
 	private Long id;
 	
 	@NotEmpty @NotBlank
-	@Column(unique=true)
 	private String name;
 	
 	@OneToMany(mappedBy="category")

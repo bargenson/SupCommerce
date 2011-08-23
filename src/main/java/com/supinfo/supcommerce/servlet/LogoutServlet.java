@@ -16,6 +16,7 @@ public class LogoutServlet extends HttpServlet {
 			throws ServletException, IOException {
 	
 		req.logout();
+		req.getSession().invalidate();
 		resp.sendRedirect(getServletContext().getContextPath());
 	}
 

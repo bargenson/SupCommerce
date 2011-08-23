@@ -10,7 +10,6 @@
 	            	<c:out value="${product.name}" />
 	            </h1>
 	        </header>
-	        plop
 	        <p>
 	        	<c:url value="/picture/display?productId=${product.id}" var="productPictureUrl" />
 	        	<img alt="Product Picture" src="${productPictureUrl}" />
