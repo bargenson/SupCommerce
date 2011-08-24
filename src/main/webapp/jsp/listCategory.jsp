@@ -2,15 +2,17 @@
 
 <html>	
 	<body>
-		<c:if test="${not empty pageContext.request.userPrincipal}">
-			<h3>Welcome <c:out value="${pageContext.request.userPrincipal.name}" /></h3>
-		</c:if>
-        <ul>
-        	<c:forEach items="${categories}" var="c">
-        		<li>
-	        		<a href="category?id=${c.id}" title="${c.name}">${c.name}</a>
-	        	</li>
+		<header>
+			<h1>Categories</h1>
+		</header>
+		<table class="common-table zebra-striped">
+			<c:forEach items="${categories}" var="c">
+        		<tr>
+        			<td>
+	        			<a class="cell-link" href="category?id=${c.id}" title="${c.name}">${c.name}</a>
+	        		</td>
+	        	</tr>
         	</c:forEach>
-        </ul>
+		</table>
 	</body>
 </html>

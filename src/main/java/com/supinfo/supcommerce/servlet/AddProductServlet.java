@@ -40,9 +40,7 @@ public class AddProductServlet extends HttpServlet {
 			throws ServletException, IOException {
 				
 		List<Category> categories = DaoFactory.getDaoFactory().getCategoryDao().getAllCategories();
-		
-		req.getSession().setAttribute("test", "test");
-		
+				
 		req.setAttribute("categories", categories);
 		req.getRequestDispatcher("/jsp/addProduct.jsp").forward(req, resp);
 	}

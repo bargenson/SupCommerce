@@ -22,5 +22,16 @@
 			<form-error-page>/login?error=1</form-error-page>
 		</form-login-config>
 	</login-config>
+	
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://bargenson.fr/jsp/el/functions</taglib-uri>
+			<taglib-location>/WEB-INF/tags/functions.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://bargenson.fr/jsp/el/constants</taglib-uri>
+			<taglib-location>/WEB-INF/tags/constants.tld</taglib-location>
+		</taglib>
+	</jsp-config>
 
 </web-app>
