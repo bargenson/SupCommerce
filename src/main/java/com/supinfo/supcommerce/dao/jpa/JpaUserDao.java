@@ -9,78 +9,55 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.supinfo.supcommerce.dao.UserDao;
+import com.supinfo.supcommerce.exception.BadCredentialsException;
+import com.supinfo.supcommerce.exception.UnknownUserException;
 import com.supinfo.supcommerce.model.User;
 
-public class JpaUserDao implements UserDao {
+public class JpaUserDao extends JpaAbstractDao<User, Long> implements UserDao {
 
 	private EntityManagerFactory emf;
 	
 	public JpaUserDao(EntityManagerFactory emf) {
-		this.emf = emf;
+		super(emf);
 	}
 
 	@Override
 	public User authenticate(String username, String password) {
-		User result = null;
-		
-		EntityManager em = emf.createEntityManager();
 		try {
 			User user = findUserByUsername(username);
-			if(user != null && user.getEncryptedPassword().equals(encryptPassword(password))) {
-				result = user;
+			if(user.getEncryptedPassword().equals(encryptPassword(password))) {
+				return user;
 			}
-		} catch (NoResultException e) { 
-			// Do nothing, result is already null
-		} finally {
-			em.close();
-		}
+		} catch (NoResultException e) { /* Do nothing, an exception will be thrown */ }
 		
-		return result;
+		throw new BadCredentialsException(username, password);
 	}
 	
 	private String encryptPassword(String password) {
-		String result = null;
 		try {
-			result = new String(MessageDigest.getInstance("SHA-1").digest(password.getBytes()));
+			return new String(MessageDigest.getInstance("SHA-1").digest(password.getBytes()));
 		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
+			throw new IllegalStateException();
 		}
-		return result;
 	}
 
 	@Override
 	public User register(User user) {
-		User result = null;
-		EntityManager em = emf.createEntityManager();
-		try {
-			em.getTransaction().begin();
-			em.persist(user);
-			em.getTransaction().commit();
-			result = user;
-		} finally {
-			if(em.getTransaction().isActive()) {
-				em.getTransaction().rollback();
-			}
-			em.close();
-		}
-		return result;
+		return persist(user);
 	}
 
 	@Override
-	public User findUserByUsername(String username) {
-		User result;
-		
+	public User findUserByUsername(String username) {		
 		EntityManager em = emf.createEntityManager();
 		try {
 			Query query = em.createQuery("SELECT u FROM User u WHERE u.username = :username");
-			result = (User) query.setParameter("username", username).getSingleResult();
+			query.setParameter("username", username);
+			return (User) query.getSingleResult();
 		} catch (NoResultException e) { 
-			result = null;
+			throw new UnknownUserException(username, e);
 		} finally {
 			em.close();
 		}
-		
-		return result;
 	}
 	
 }

@@ -6,6 +6,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 
 import com.supinfo.supcommerce.dao.PictureDao;
+import com.supinfo.supcommerce.exception.UnknownProductException;
 
 public class JpaPictureDao implements PictureDao {
 
@@ -16,21 +17,17 @@ public class JpaPictureDao implements PictureDao {
 	}
 	
 	@Override
-	public byte[] findPictureByProductId(Long productId) {
-		byte[] result;
-		
+	public byte[] findPictureByProductId(Long productId) {		
 		EntityManager em = emf.createEntityManager();
 		try { 
 			Query query = em.createQuery("SELECT p.picture FROM Product p WHERE p.id = :id");
 			query = query.setParameter("id", productId);
-			result = (byte[]) query.getSingleResult();
+			return (byte[]) query.getSingleResult();
 		} catch (NoResultException e) {
-			result = null;
+			throw new UnknownProductException(productId, e);
 		} finally { 
 			em.close(); 
 		}
-		
-		return result;
 	}
 
 }
